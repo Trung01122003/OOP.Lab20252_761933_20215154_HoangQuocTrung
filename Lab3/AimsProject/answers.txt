@@ -1,11 +1,7 @@
-# Lab 03 - OOP Basics
-
-## Question 1: After the call of swap(jungleDVD, cinderellaDVD) why does the title of these two objects still remain?
-Java always passes parameters by value. For objects, the value passed is the reference to the object in memory. 
-When `swap(jungleDVD, cinderellaDVD)` is called, the reference copies `o1` and `o2` are passed into the method. Inside the `swap` method, we merely exchange the local variables `o1` and `o2` to point to different objects. 
-This swapping only affects the local variables inside the `swap` function scope. The original variables outside the method (`jungleDVD` and `cinderellaDVD`) still point to their original memory locations, hence their titles remain unchanged.
-
-## Question 2: After the call of changeTitle(jungleDVD, cinderellaDVD.getTitle()) why is the title of the JungleDVD changed?
-In `changeTitle`, the reference to `jungleDVD` is passed by value. The local parameter `dvd` in the method points to the same object in memory as `jungleDVD`.
-When we call `dvd.setTitle(title)`, we are modifying the attribute of the object that both `dvd` and `jungleDVD` point to. 
-The subsequent line `dvd = new DigitalVideoDisc(oldTitle)` simply reassigns the local parameter `dvd` to point to a newly created object. This does not affect the original `jungleDVD` reference outside the method. Because the title was successfully modified via the setter before reassignment, `jungleDVD` reflects that change.
+8.
+Có, bạn có thể tạo được. Đây là constructor đầy đủ nhất để khởi tạo toàn bộ thông tin cho một đối tượng DVD
+9.
+Vì thuộc tính cost trong lớp DigitalVideoDisc được để là private, ta không thể truy cập trực tiếp. Ta phải gọi phương thức getter là getCost() của đối tượng DigitalVideoDisc
+11.
+ Thay đổi vị trí 2 đói tượng nhưng hàm swap() không thay đổi được vị trí của hai đối tượng gốc bên ngoài, việc tráo đổi trong hàm chỉ tác động lên bản sao, không ảnh hưởng đến biến gốc ở hàm main
+Hàm changeTitle() thay đổi được tiêu đề của đối tượng
