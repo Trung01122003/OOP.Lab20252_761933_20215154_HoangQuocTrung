@@ -76,4 +76,8 @@ public class DigitalVideoDisc {
     public String toString() {
         return "DVD - " + this.title + " - " + this.category + " - " + this.director + " - " + this.length + ": " + this.cost + " $";
     }
+
+    public boolean isMatch(String title) {
+        return this.title != null && this.title.toLowerCase().contains(title.toLowerCase());
+    }
 }
