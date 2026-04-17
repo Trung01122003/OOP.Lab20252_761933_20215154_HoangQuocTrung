@@ -72,4 +72,8 @@ public class DigitalVideoDisc {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String toString() {
+        return "DVD - " + this.title + " - " + this.category + " - " + this.director + " - " + this.length + ": " + this.cost + " $";
+    }
 }
