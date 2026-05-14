@@ -1,21 +1,28 @@
-8.
-Có, bạn có thể tạo được. Đây là constructor đầy đủ nhất để khởi tạo toàn bộ thông tin cho một đối tượng DVD
-9.
-Vì thuộc tính cost trong lớp DigitalVideoDisc được để là private, ta không thể truy cập trực tiếp. Ta phải gọi phương thức getter là getCost() của đối tượng DigitalVideoDisc
-11.
- Thay đổi vị trí 2 đói tượng nhưng hàm swap() không thay đổi được vị trí của hai đối tượng gốc bên ngoài, việc tráo đổi trong hàm chỉ tác động lên bản sao, không ảnh hưởng đến biến gốc ở hàm main
-Hàm changeTitle() thay đổi được tiêu đề của đối tượng
+1. Constructors and Aggregates
+Question: Which classes are aggregates of other classes? Checking all constructors of whole classes if they initialize for their parts?
+Answer: 
+- Các lớp tập hợp (Aggregates): 
+  + CompactDisc là tập hợp của các đối tượng Track.
+  + Book là tập hợp của các String (danh sách tác giả).
+  + Cart và Store là tập hợp của các đối tượng Media.
+- Kiểm tra Constructor: Có, trong các lớp "toàn thể" này, các danh sách (ArrayList) đều được khởi tạo bằng từ khóa "new" ngay khi khai báo thuộc tính hoặc trong constructor. Việc này đảm bảo các danh sách không bị null, tránh lỗi NullPointerException khi thêm phần tử.
 
---- CÂU TRẢ LỜI CHO LAB 04 ---
+2. The equals() Method
+Question: In the overridden equals() method, if the passing object is not an instance of Media, what happens?
+Answer:
+- Nếu ta thực hiện ép kiểu (casting) trực tiếp đối tượng truyền vào sang kiểu Media mà không kiểm tra, Java sẽ ném ra ngoại lệ "ClassCastException" khi đối tượng đó không tương thích (ví dụ truyền vào một String thay vì Media), dẫn đến treo chương trình.
+- Vì vậy, việc sử dụng toán tử "instanceof" là bắt buộc để kiểm tra an toàn. Nếu không phải là Media, hàm sẽ trả về false ngay lập tức thay vì gây lỗi.
 
-10. Trong phương thức equals() (Overriding):
-Nếu object truyền vào (passing object) không phải là một instance (thực thể) của Media, thì câu lệnh kiểm tra `if (!(o instanceof Media))` sẽ trả về false. Kết quả là phương thức `equals()` lập tức trả về `false`, ngăn chặn lỗi `ClassCastException` và đảm bảo an toàn kiểu dữ liệu.
+3. Polymorphism with toString()
+Question: Iterate through the list and print out the information of the media by using toString() method. Observe what happens and explain in detail.
+Answer:
+- Quan sát: Dù ta gọi phương thức toString() thông qua một biến tham chiếu kiểu Media, nhưng Java vẫn in ra đúng định dạng riêng của từng loại (Book, CD, hoặc DVD).
+- Giải thích: Đây là hiện tượng Đa hình tại thời điểm chạy (Runtime Polymorphism). Nhờ cơ chế "Dynamic Method Dispatch", máy ảo Java (JVM) sẽ xác định kiểu thực tế của đối tượng đang nằm trong bộ nhớ để gọi đúng phương thức đã được ghi đè (override) ở các lớp con tương ứng.
 
-11. Đa hình với phương thức toString():
-Khi lặp qua danh sách ArrayList<Media> và gọi phương thức `toString()`, nhờ vào cơ chế Đa hình (Polymorphism) và Late Binding (Dynamic Dispatch) trong Java, hệ thống sẽ tự động tự quyết định và gọi đúng phương thức `toString()` của lớp con (ví dụ Book, DigitalVideoDisc, hay CompactDisc) tương ứng với kiểu thực sự của object tại thời điểm chạy (Runtime), thay vì gọi hàm `toString()` của lớp cha `Media`. Điều này giúp in ra thông tin chi tiết và định dạng chuẩn xác cho từng loại sản phẩm cụ thể.
-
-12. Về Comparable Interface:
-- Lớp nào nên implement Comparable: Lớp cha `Media` nên implement interface `Comparable<Media>`.
-- Triển khai compareTo(): Ghi đè hàm `compareTo(Media other)` trong lớp `Media` để phản ánh tiêu chí sắp xếp mặc định (ví dụ: so sánh tiêu đề trước, nếu giống thì so sánh giá trị).
-- Có thể có 2 luồng sắp xếp với Comparable không? Không. `Comparable` (hay Natural Ordering) chỉ cho phép định nghĩa MỘT quy tắc sắp xếp duy nhất thông qua hàm `compareTo()`. Muốn có nhiều quy tắc, ta bắt buộc phải dùng nhiều đối tượng `Comparator` như đã làm trong bài.
-- Nếu DVD có rule riêng (title -> length giảm dần -> cost): Ta sẽ tạo lớp DigitalVideoDisc implement `Comparable<DigitalVideoDisc>` và override `compareTo()`, hoặc tối ưu nhất là tạo một `Comparator<DigitalVideoDisc>` riêng lẻ cho DVD. Để sửa code hiện tại, trong Comparator chung, có thể check `if (m1 instanceof DigitalVideoDisc && m2 instanceof DigitalVideoDisc)` và ép kiểu để so sánh thêm thuộc tính length của DVD.
+4. Comparable vs Comparator
+Question: Suppose we are taking this Comparable interface approach to compare items.
+Answer:
+a. Lớp triển khai: Lớp cha "Media" nên triển khai interface Comparable<Media>.
+b. Cách triển khai compareTo(): Ta sẽ ghi đè phương thức compareTo(Media other) trong lớp Media để định nghĩa quy tắc sắp xếp mặc định (ví dụ: ưu tiên theo tiêu đề, sau đó đến giá tiền).
+c. Khả năng đa dạng quy tắc: Không. Interface Comparable chỉ cho phép định nghĩa một "thứ tự tự nhiên" (natural ordering) duy nhất cho lớp. Để hỗ trợ nhiều kịch bản sắp xếp khác nhau (lúc theo giá, lúc theo tiêu đề), ta bắt buộc phải sử dụng interface Comparator.
+d. Trường hợp đặc biệt cho DVD: Ta có thể ghi đè lại phương thức compareTo() riêng tại lớp DigitalVideoDisc để thực hiện quy tắc: tiêu đề -> chiều dài giảm dần -> giá tiền. Tuy nhiên, cách làm tốt nhất vẫn là tạo một lớp Comparator riêng cho DVD để tránh làm phức tạp hóa lớp cha Media và giữ cho mã nguồn linh hoạt hơn.
