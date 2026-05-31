@@ -1,7 +1,0 @@
-8.
-Có, bạn có thể tạo được. Đây là constructor đầy đủ nhất để khởi tạo toàn bộ thông tin cho một đối tượng DVD
-9.
-Vì thuộc tính cost trong lớp DigitalVideoDisc được để là private, ta không thể truy cập trực tiếp. Ta phải gọi phương thức getter là getCost() của đối tượng DigitalVideoDisc
-11.
- Thay đổi vị trí 2 đói tượng nhưng hàm swap() không thay đổi được vị trí của hai đối tượng gốc bên ngoài, việc tráo đổi trong hàm chỉ tác động lên bản sao, không ảnh hưởng đến biến gốc ở hàm main
-Hàm changeTitle() thay đổi được tiêu đề của đối tượng
