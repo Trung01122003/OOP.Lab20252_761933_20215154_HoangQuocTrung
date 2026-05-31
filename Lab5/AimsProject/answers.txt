@@ -1,0 +1,78 @@
+LAB 05 - GUI PROGRAMMING - ANSWERS
+
+=== PART 1: SWING COMPONENTS (AWTAccumulator, SwingAccumulator, NumberGrid) ===
+
+1. So sánh AWT và Swing:
+Question: Observe the differences between the two programs.
+Answer:
+- AWT (Abstract Window Toolkit):
+  + Sử dụng các thành phần nặng (heavyweight components), liên kết trực tiếp với các tài nguyên
+    đồ họa của hệ điều hành thông qua cơ chế peer-based (mỗi thành phần AWT có một đối tác
+    native tương ứng trên hệ điều hành).
+  + Giao diện phụ thuộc vào hệ điều hành đang chạy (Windows, Linux, macOS sẽ trông khác nhau).
+  + Ít tính năng hơn, ít thành phần hơn so với Swing.
+
+- Swing:
+  + Sử dụng các thành phần nhẹ (lightweight components), được vẽ hoàn toàn bằng Java 2D API
+    trên một canvas đồ họa, không phụ thuộc vào hệ điều hành.
+  + Giao diện nhất quán trên mọi nền tảng (Write Once, Run Anywhere).
+  + Hỗ trợ Double-Buffering mặc định giúp hiển thị mượt mà, không bị nhấp nháy.
+  + Hỗ trợ thay đổi giao diện động (Pluggable Look and Feel - PLaF).
+  + Bộ thành phần phong phú hơn: JTable, JTree, JTabbedPane, JSlider, v.v.
+  + Sử dụng Container cp = getContentPane() để thêm thành phần thay vì thêm trực tiếp vào Frame.
+
+=== PART 2: JAVAFX PAINTER (Painter.fxml, PainterController.java) ===
+
+2. Tính năng Eraser trong Painter:
+Question: Add an eraser feature to the Painter application.
+Answer:
+- Triển khai: Sử dụng một TitledPane chứa ToggleGroup với 2 RadioButton ("Pen" và "Eraser").
+- Cơ chế hoạt động:
+  + Khi người dùng chọn "Pen": Kéo chuột tạo ra các Circle màu ĐEN (Color.BLACK) tại vị trí con trỏ.
+  + Khi người dùng chọn "Eraser": Kéo chuột tạo ra các Circle màu TRẮNG (Color.WHITE) với bán kính
+    lớn hơn (radius = 8), trùng với màu nền canvas, tạo hiệu ứng tẩy.
+- Lợi điểm: Đơn giản, hiệu quả, không cần xóa node khỏi Scene Graph mà chỉ cần "che phủ" lên trên.
+
+=== PART 3: AIMS GUI SCREENS ===
+
+3. Vai trò của JFXPanel trong CartScreen:
+Question: How do we embed a JavaFX component into a Swing application?
+Answer:
+- JFXPanel là cầu nối (bridge) giữa Swing và JavaFX:
+  + Cho phép nhúng một Scene JavaFX (được tải từ file FXML) vào trong một JFrame hoặc JPanel của Swing.
+  + Để khởi tạo nội dung JavaFX bên trong JFXPanel, ta phải gọi Platform.runLater() để đảm bảo
+    code JavaFX chạy trên luồng JavaFX Application Thread (JavaFX thread-safety).
+  + Điều này cho phép kết hợp ưu điểm của cả hai: giao diện JFrame quen thuộc của Swing bao bên ngoài
+    và bảng TableView hiện đại, mạnh mẽ của JavaFX bên trong.
+
+4. ObservableList trong Cart.java:
+Question: Why change ArrayList to ObservableList?
+Answer:
+- ObservableList (javafx.collections.ObservableList) là một danh sách có khả năng tự động thông báo
+  cho các thành phần quan sát (Observers/Listeners) mỗi khi dữ liệu thay đổi (thêm, xóa, sửa phần tử).
+- Khi TableView được liên kết (bind) với một ObservableList thông qua tblMedia.setItems(cart.getItemsOrdered()),
+  bất kỳ thay đổi nào đối với giỏ hàng sẽ được phản ánh lên bảng ngay lập tức và tự động
+  mà không cần phải gọi thủ công tblMedia.refresh() hay tải lại dữ liệu.
+
+=== PART 4: EXCEPTION HANDLING ===
+
+5. Checked Exception vs Unchecked Exception:
+Question: If a method containing a Checked Exception is called without try-catch, what happens?
+Answer:
+- PlayerException là một Checked Exception (kế thừa từ java.lang.Exception):
+  + Nếu phương thức chứa lời gọi đến play() (ném PlayerException) mà KHÔNG bao bọc bằng khối
+    try-catch VÀ KHÔNG khai báo "throws PlayerException" ở đầu hàm, Java sẽ báo LỖI BIÊN DỊCH
+    (Compile-time Error) ngay lập tức.
+  + Đây là đặc trưng của Checked Exception - bắt buộc lập trình viên phải chủ động xử lý
+    các tình huống bất thường có thể lường trước được tại thời điểm biên dịch.
+  + Ngược lại, Unchecked Exception (kế thừa RuntimeException) không bắt buộc phải khai báo
+    hay bắt - lỗi chỉ xảy ra lúc chạy (Runtime).
+
+6. An toàn hóa hàm equals() trong Media.java:
+Question: How to make the equals() method safe against NullPointerException and ClassCastException?
+Answer:
+- Thêm kiểm tra "if (o == null) return false;" trước bước instanceof.
+- Kiểm tra "if (!(o instanceof Media)) return false;" tránh lỗi ClassCastException khi ép kiểu.
+- Kiểm tra "this.title != null" trước khi gọi .equals() để tránh NullPointerException.
+- Kết quả: Phương thức equals() xử lý an toàn tất cả các trường hợp đặc biệt mà không
+  gây ra crash chương trình.
