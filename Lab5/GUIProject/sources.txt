@@ -1,5 +1,0 @@
-"D:/Learn/Documents/OOP/OOP Week1/Lab5/GUIProject/src/hust/soict/dsai/javafx/Painter.java"
-"D:/Learn/Documents/OOP/OOP Week1/Lab5/GUIProject/src/hust/soict/dsai/javafx/PainterController.java"
-"D:/Learn/Documents/OOP/OOP Week1/Lab5/GUIProject/src/hust/soict/dsai/swing/AWTAccumulator.java"
-"D:/Learn/Documents/OOP/OOP Week1/Lab5/GUIProject/src/hust/soict/dsai/swing/NumberGrid.java"
-"D:/Learn/Documents/OOP/OOP Week1/Lab5/GUIProject/src/hust/soict/dsai/swing/SwingAccumulator.java"
